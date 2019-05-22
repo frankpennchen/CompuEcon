@@ -4,7 +4,7 @@ import numpy as np
 from scipy.stats import norm
 
 # ============================================================================
-def tauchenhussey(N,mu,rho,sigma, baseSigma):
+def tauchenhussey(N,mu,rho,sigma,baseSigma):
     """ 
     Function tauchenhussey
 
@@ -139,6 +139,58 @@ def tauchen(N,mu,rho,sigma):
             else:
                 tempValue=(Z[N-1,0]-stepLength/2.0-(1.0-rho)*muZ-rho*Z[i,0])/sigma
                 Zprob[i,j]=1.0-norm.cdf(tempValue)
-    
+
+   
     
     return Z.T,Zprob
+              
+ # ============================================================================
+def rouwen(N,mu,rho,sigma):
+    '''
+    Adapted from Lu Zhang and Karen Kopecky. Python by Ben Tengelsen.
+    Construct transition probability matrix for discretizing an AR(1)
+    process. This procedure is from Rouwenhorst (1995), which works
+    well for very persistent processes.
+
+    INPUTS:
+    rho  - persistence (close to one)
+    mu   - mean and the middle point of the discrete state space
+    step - step size of the even-spaced grid
+    num  - number of grid points on the discretized process
+
+    OUTPUT:
+    dscSp  - discrete state space (num by 1 vector)
+    transP - transition probability matrix over the grid
+    '''
+
+    # discrete state space
+    sigmaZ=sigma/sp.sqrt(1.0-rho**2.0)
+    M=2                                     #bandwidth of grid
+    muZ=mu
+
+    dscSp=np.linspace(muZ-float(M)*sigmaZ,muZ+float(M)*sigmaZ,N)
+
+    # transition probability matrix
+    q = p = (rho + 1)/2.
+    transP = np.array([[p**2, p*(1-q), (1-q)**2], \
+                    [2*p*(1-p), p*q+(1-p)*(1-q), 2*q*(1-q)], \
+                    [(1-p)**2, (1-p)*q, q**2]]).T
+
+    while transP.shape[0] <= N - 1:
+
+        # see Rouwenhorst 1995
+        len_P = transP.shape[0]
+        transP = p*np.vstack((np.hstack((transP,np.zeros((len_P,1)))), np.zeros((1, len_P+1)))) \
+        + (1-p)*np.vstack((np.hstack((np.zeros((len_P, 1)), transP)), np.zeros((1, len_P+1)))) \
+        + (1-q)*np.vstack((np.zeros((1, len_P+1)), np.hstack((transP, np.zeros((len_P, 1)))))) \
+        + q*np.vstack((np.zeros((1, len_P+1)), np.hstack((np.zeros((len_P, 1)), transP))))
+
+        transP[1:-1] /= 2.
+
+    # ensure columns sum to 1
+    if np.max(np.abs(np.sum(transP, axis=1) - np.ones(transP.shape))) >= 1e-12:
+        print('Problem in rouwen routine!')
+        return None
+    else:
+        return dscSp,transP.T
+ # ============================================================================  

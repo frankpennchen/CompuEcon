@@ -1,4 +1,4 @@
-from Discretize import tauchenhussey,tauchen
+from Discretize import tauchenhussey,tauchen,rouwen
 import numpy as np
 import math
 
@@ -13,3 +13,4 @@ baseSigma=w*sigma +(1-w)*sigmaZ
 
 stateList1,transitionMat1=tauchenhussey(numMarkovState,mu,rho,sigma, baseSigma)
 stateList2,transitionMat2=tauchen(numMarkovState,mu,rho,sigma)
+stateList3,transitionMat3=rouwen(numMarkovState,mu,rho,sigma)
