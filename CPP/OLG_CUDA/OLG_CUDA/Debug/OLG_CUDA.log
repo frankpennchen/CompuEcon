@@ -1,0 +1,9 @@
+﻿  OLG_CUDA.cpp
+c1xx : warning C4199: two-phase name lookup is not supported for C++/CLI, C++/CX, or OpenMP; use /Zc:twoPhase-
+  household.cpp
+c1xx : warning C4199: two-phase name lookup is not supported for C++/CLI, C++/CX, or OpenMP; use /Zc:twoPhase-
+c:\users\peiranch\documents\github\compuecon\cpp\olg_cuda\olg_cuda\household.cpp(17): warning C4101: 'cash_on_hand': unreferenced local variable
+  Generating Code...
+  household.obj : /DEBUG:FASTLINK is not supported when managed code is present; restarting link with /DEBUG:FULL
+  household.obj : MSIL module encountered; incremental linking is disabled for MSIL; performing full link
+LINK : fatal error LNK1104: cannot open file 'MSCOREE.lib'
