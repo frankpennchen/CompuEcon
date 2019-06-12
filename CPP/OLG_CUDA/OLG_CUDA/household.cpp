@@ -1,8 +1,12 @@
 #include "pch.h"
 #include <cmath>
 #include "household.h"
+#include "parameter.h"
+#include <algorithm>
 
 using namespace HOUSEHOLD;
+using namespace PARAMETER;
+using namespace std;
 
 class household {
 
@@ -23,6 +27,15 @@ public:
 	double utility(double consumption, double labor) {
 
 		return pow(pow(consumption, ALPHA)*pow(labor, 1.0-ALPHA), 1.0 - GAMMA)/(1.0 - GAMMA);
+	}
+
+	double ss_benefit_function() {
+		if (age<retire_age) {
+			return 0.0;
+		}
+		else {
+			return oasi_adj_factor * (0.9*min(average_historical_earning, zeta1) + 0.32*max(min(average_historical_earning, zeta2) - zeta1, 0.0) + 0.15*max(average_historical_earning - zeta2, 0.0));
+		}
 	}
 
 };

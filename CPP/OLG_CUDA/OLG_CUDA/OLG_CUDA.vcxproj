@@ -153,6 +153,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="household.h" />
+    <ClInclude Include="parameter.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>

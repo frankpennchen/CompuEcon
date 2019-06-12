@@ -21,6 +21,9 @@
     <ClInclude Include="household.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="parameter.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
